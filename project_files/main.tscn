@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://ch5yba3tphlom"]
+
+[ext_resource type="Script" uid="uid://ct7vqf2lyd70f" path="res://node_3d.gd" id="1_2h1pa"]
+[ext_resource type="PackedScene" uid="uid://cdg86te1k0kjf" path="res://assets/models/hand_l.gltf" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://d3nohurygrnpy" path="res://xr_origin_3d.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://b3h8cmnrih661" path="res://right_controller.gd" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://ircv4avuj0lo" path="res://assets/models/hand_r.gltf" id="4_7mycd"]
+[ext_resource type="Texture2D" uid="uid://c4pyy4t4np186" path="res://assets/models/images (1).png" id="6_w48qg"]
+[ext_resource type="Texture2D" uid="uid://cvodqwy1ig24r" path="res://assets/models/PavingStones138_1K-JPG/PavingStones138_1K-JPG_Color.jpg" id="7_w48qg"]
+[ext_resource type="Texture2D" uid="uid://28u5w7mkywyq" path="res://assets/models/PavingStones138_1K-JPG/PavingStones138_1K-JPG_AmbientOcclusion.jpg" id="8_vivmo"]
+[ext_resource type="Texture2D" uid="uid://de2vt484dp75" path="res://assets/models/PavingStones138_1K-JPG/PavingStones138_1K-JPG_Displacement.jpg" id="9_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://bkf7hrasgufex" path="res://assets/models/PavingStones138_1K-JPG/PavingStones138_1K-JPG_NormalGL.jpg" id="10_yaehf"]
+[ext_resource type="Texture2D" uid="uid://cwjy1x85a1r4l" path="res://assets/models/PavingStones138_1K-JPG/PavingStones138_1K-JPG_Roughness.jpg" id="11_074og"]
+[ext_resource type="PackedScene" uid="uid://cbv6ye4uwmvf7" path="res://assets/models/gate.glb" id="12_cegan"]
+[ext_resource type="PackedScene" uid="uid://dlqapboo8gtmt" path="res://assets/models/angel_old_marble_version.glb" id="13_82xsv"]
+[ext_resource type="PackedScene" uid="uid://4e23va0xsbql" path="res://assets/models/st._franziscus_spontaneous_scan.glb" id="14_getpj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+transparency = 1
+albedo_color = Color(0, 3.3848207, 3.3848207, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lquwl"]
+top_radius = 0.3
+bottom_radius = 0.2
+height = 0.05
+
+[sub_resource type="SystemFont" id="SystemFont_efxa6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efxa6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+albedo_texture = ExtResource("7_w48qg")
+roughness_texture = ExtResource("11_074og")
+normal_enabled = true
+normal_texture = ExtResource("10_yaehf")
+ao_enabled = true
+ao_texture = ExtResource("8_vivmo")
+heightmap_enabled = true
+heightmap_texture = ExtResource("9_2cqfq")
+uv1_scale = Vector3(3, 3, 3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
+size = Vector2(20, 20)
+center_offset = Vector3(0, -2, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7mycd"]
+size = Vector3(20, 1, 20)
+
+[node name="Node3D" type="Node3D" unique_id=861789591]
+script = ExtResource("1_2h1pa")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=114804357]
+script = ExtResource("2_lquwl")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=87452628]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006350726, 0.8786463, 0)
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D" unique_id=483040678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006350726, 0.8786463, 0)
+tracker = &"left_hand"
+
+[node name="LeftHandRoot" type="Node3D" parent="XROrigin3D/LeftController" unique_id=1310346370]
+
+[node name="hand_l" parent="XROrigin3D/LeftController/LeftHandRoot" unique_id=1185890127 instance=ExtResource("2_1bvp3")]
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=2029641092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006350726, 0.8786463, 0)
+tracker = &"right_hand"
+script = ExtResource("3_lquwl")
+
+[node name="RightHandRoot" type="Node3D" parent="XROrigin3D/RightController" unique_id=185832925]
+
+[node name="hand_r" parent="XROrigin3D/RightController/RightHandRoot" unique_id=602055184 instance=ExtResource("4_7mycd")]
+
+[node name="mesh_Hand_R" parent="XROrigin3D/RightController/RightHandRoot/hand_r/Armature/Skeleton3D" parent_id_path=PackedInt32Array(602055184, 102687854) index="0" unique_id=1681695915]
+surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")
+
+[node name="TeleportRay" type="RayCast3D" parent="XROrigin3D/RightController" unique_id=1606368127]
+target_position = Vector3(0, -4, -10)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="TeleportMarker" type="MeshInstance3D" parent="XROrigin3D/RightController" unique_id=1663397397]
+transform = Transform3D(1, 0, 0, 0, 0.9920248, -0.12604316, 0, 0.12604316, 0.9920248, 2.3722649e-05, -1.9784281, -5.0499687)
+material_override = SubResource("StandardMaterial3D_272bh")
+transparency = 0.2
+mesh = SubResource("CylinderMesh_lquwl")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1843379335]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=684559898]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_w48qg")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="CanvasLayer" unique_id=1954376599]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -15.5
+offset_right = 37.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0.7411765, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_efxa6")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_efxa6")
+text = "Enter VR"
+
+[node name="NodeLevel" type="Node3D" parent="." unique_id=1491510390]
+
+[node name="Level" type="MeshInstance3D" parent="NodeLevel" unique_id=44387286]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.529058, 1.9337716, 0.53701746)
+material_override = SubResource("StandardMaterial3D_efxa6")
+mesh = SubResource("PlaneMesh_lquwl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NodeLevel/Level" unique_id=125943844]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NodeLevel/Level/StaticBody3D" unique_id=668640894]
+shape = SubResource("BoxShape3D_7mycd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=909231601]
+transform = Transform3D(-0.6777193, -0.7349236, 0.024163954, 0.17331058, -0.12771219, 0.97655153, -0.71460485, 0.6660159, 0.21392307, 0, 3.3504996, 0)
+layers = 3
+light_color = Color(0.8980392, 0.69411767, 0.30980393, 1)
+light_indirect_energy = 1.005
+light_angular_distance = 34.34
+light_specular = 2.579
+
+[node name="Sketchfab_Scene" parent="." unique_id=1001277549 instance=ExtResource("12_cegan")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -10.327714, 0.19438434, -1.0087156)
+
+[node name="Sketchfab_Scene8" parent="." unique_id=1929531277 instance=ExtResource("12_cegan")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -10.327714, 0.1717751, 3.2722998)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=116859531 instance=ExtResource("13_82xsv")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.28676116, 0.16142559, -5.190549)
+
+[node name="Sketchfab_Scene5" parent="." unique_id=2144463527 instance=ExtResource("13_82xsv")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6.727533, 0.15920448, -7.5314236)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=1539723889 instance=ExtResource("13_82xsv")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.184122, 0, -2.4945178)
+
+[node name="Sketchfab_Scene4" parent="." unique_id=995864803 instance=ExtResource("14_getpj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4572039, 0.92734605, 0.7303802)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=353074880 instance=ExtResource("14_getpj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.328477, 0.8936983, 5.2075677)
+
+[node name="Sketchfab_Scene7" parent="." unique_id=243274614 instance=ExtResource("14_getpj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4572039, 0.92734605, 0.7303802)
+
+[editable path="XROrigin3D/LeftController/LeftHandRoot/hand_l"]
+[editable path="XROrigin3D/RightController/RightHandRoot/hand_r"]
